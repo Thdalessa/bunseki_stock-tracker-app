@@ -1,6 +1,7 @@
+import type { ReactNode } from "react";
 import Header from "@/components/Header";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <main className="min-h-screen text-gray-400">
       {/* Header */}
