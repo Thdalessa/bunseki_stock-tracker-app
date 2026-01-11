@@ -1,6 +1,6 @@
 import TradingViewWidget from "@/components/TradingViewWidget";
-import { Button } from "@/components/ui/button";
 import {
+  baseUrl,
   HEATMAP_WIDGET_CONFIG,
   MARKET_DATA_WIDGET_CONFIG,
   MARKET_OVERVIEW_WIDGET_CONFIG,
@@ -8,7 +8,6 @@ import {
 } from "@/lib/constants";
 
 const Home = () => {
-  const baseUrl = "https://s3.tradingview.com/external-embedding/embed-widget-";
   return (
     <div className="flex min-h-screen home-wrapper">
       <section className="grid w-full gap-8 home-section">
@@ -21,7 +20,7 @@ const Home = () => {
             height={600}
           />
         </div>
-        <div className="md:col-span xl:col-span-2">
+        <div className="md:col-span-1 xl:col-span-2">
           <TradingViewWidget
             title="Stock Heatmap"
             scriptUrl={`${baseUrl}stock-heatmap.js`}

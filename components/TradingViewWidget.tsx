@@ -1,7 +1,7 @@
 "use client";
 import useTradingViewWidget from "@/hooks/useTradingViewWidget";
 import { cn } from "@/lib/utils";
-import React, { useEffect, useRef, memo, FC } from "react";
+import React, { memo, FC } from "react";
 
 interface TradingViewWidgetProps {
   title?: string;
@@ -31,7 +31,7 @@ const TradingViewWidget: FC<TradingViewWidgetProps> = ({
       >
         <div
           className="tradingview-widget-container__widget"
-          style={{ height: height, width: "100%" }}
+          style={{ height: `${height}px`, width: "100%" }}
         />
       </div>
     </div>
