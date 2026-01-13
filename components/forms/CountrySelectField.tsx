@@ -62,7 +62,7 @@ const CountrySelect = ({
         <Command className="bg-gray-800 border-gray-600 text-white">
           <CommandInput placeholder="Search for a country..." />
           <CommandList className="scrollbar-hide-default">
-            <CommandEmpty>No results found.</CommandEmpty>+{" "}
+            <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Countries">
               {countries.map((country) => (
                 <CommandItem

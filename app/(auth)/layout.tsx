@@ -12,6 +12,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
             alt="Bunseki logo"
             width={140}
             height={32}
+            priority
           />
         </Link>
         <div className="pb-6 lg:pb-8 flex-1">{children}</div>
@@ -33,7 +34,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
                   <Image
                     key={star}
                     src="/assets/icons/star.svg"
-                    alt={`${star} star`}
+                    alt=""
+                    aria-hidden="true"
                     width={20}
                     height={20}
                   />
