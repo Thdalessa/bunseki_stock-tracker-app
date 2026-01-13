@@ -1,13 +1,9 @@
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
 import { Controller } from "react-hook-form";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -41,16 +37,16 @@ const SelectField = ({
                 <SelectItem
                   key={option.value}
                   value={option.value}
-                  className="focus:bg-gray-600  focus:text-white"
+                  className="focus:bg-gray-600 focus:text-white"
                 >
                   {option.label}
                 </SelectItem>
               ))}
             </SelectContent>
-            {error && <p className="text-red-500 text-sm">{error.message}</p>}
           </Select>
         )}
       ></Controller>
+      {error && <p className="text-red-500 text-sm">{error.message}</p>}
     </div>
   );
 };

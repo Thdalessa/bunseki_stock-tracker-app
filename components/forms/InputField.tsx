@@ -23,7 +23,6 @@ const InputField = ({
         type={type}
         placeholder={placeholder}
         disabled={disabled}
-        value={value}
         className={cn("form-input", {
           "opacity-50 cursor-not-allowed": disabled,
         })}

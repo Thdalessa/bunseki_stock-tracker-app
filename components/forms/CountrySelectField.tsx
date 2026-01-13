@@ -60,10 +60,10 @@ const CountrySelect = ({
       </PopoverTrigger>
       <PopoverContent className="w-100 bg-gray-800 p-2">
         <Command className="bg-gray-800 border-gray-600 text-white">
-          <CommandInput placeholder="Type a command or search..." />
+          <CommandInput placeholder="Search for a country..." />
           <CommandList className="scrollbar-hide-default">
-            <CommandEmpty>No results found.</CommandEmpty>
-            <CommandGroup heading="Suggestions">
+            <CommandEmpty>No results found.</CommandEmpty>+{" "}
+            <CommandGroup heading="Countries">
               {countries.map((country) => (
                 <CommandItem
                   key={country.value}
@@ -93,7 +93,7 @@ const CountrySelectField = ({
   control,
   error,
   required = false,
-}: SelectFieldProps) => {
+}: CountrySelectProps) => {
   return (
     <div className="space-y-2">
       <Label htmlFor={name} className="form-label">

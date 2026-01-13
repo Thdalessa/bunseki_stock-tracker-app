@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import Header from "@/components/Header";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -13,7 +12,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
             alt="Bunseki logo"
             width={140}
             height={32}
-            className=""
           />
         </Link>
         <div className="pb-6 lg:pb-8 flex-1">{children}</div>
@@ -26,7 +24,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           </blockquote>
           <div className="flex items-center justify-between ">
             <div>
-              <cite className="auth-testiomnial-author">- Anthony W.</cite>
+              <cite className="auth-testimonial-author">- Anthony W.</cite>
               <p className="max-md:text-xs text-gray-500">Retail Investor</p>
             </div>
             <div className="flex items-center gap-0.5">
