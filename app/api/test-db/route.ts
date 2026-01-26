@@ -2,6 +2,13 @@ import { connectToDatabase } from "../../../database/mongoose";
 import { NextResponse } from "next/server";
 
 export async function GET() {
+  // Disable in production to prevent information disclosure
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json(
+      { success: false, message: "Endpoint disabled in production" },
+      { status: 403 }
+    );
+  }
   try {
     console.log("Testing database connection...");
     const mongooseInstance = await connectToDatabase();

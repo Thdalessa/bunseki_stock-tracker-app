@@ -1,6 +1,5 @@
 // Import the mongoose library for MongoDB interactions
 import mongoose from "mongoose";
-import { env } from "process";
 
 // Retrieve the MongoDB connection URI from environment variables, defaulting to an empty string if not set
 const MONGODB_URI = process.env.MONGODB_URI || "";
@@ -51,7 +50,7 @@ export const connectToDatabase = async () => {
   }
 
   // Log successful connection with environment and URI for debugging
-  console.log("Connected to Database" + process.env.NODE_ENV + MONGODB_URI);
+  console.log(`Connected to Database [${process.env.NODE_ENV}]`);
   // Return the established connection
   return cached.conn;
 };
