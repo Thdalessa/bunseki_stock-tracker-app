@@ -11,7 +11,6 @@ const InputField = ({
   error,
   validation,
   disabled,
-  value,
 }: FormInputProps) => {
   return (
     <div className="space-y-2">
