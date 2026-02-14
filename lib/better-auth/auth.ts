@@ -14,10 +14,16 @@ export const getAuth = async () => {
 
   if (!db) throw new Error("MongoDB connection not found");
 
+  const secret = process.env.BETTER_AUTH_SECRET;
+  const baseURL = process.env.BETTER_AUTH_URL;
+  if (!secret || !baseURL) {
+    throw new Error("BETTER_AUTH_SECRET and BETTER_AUTH_URL must be set");
+  }
+
   authInstance = betterAuth({
     database: mongodbAdapter(db as Db),
-    secret: process.env.BETTER_AUTH_SECRET,
-    baseURL: process.env.BETTER_AUTH_URL,
+    secret,
+    baseURL,
     emailAndPassword: {
       enabled: true,
       disableSignUp: false,

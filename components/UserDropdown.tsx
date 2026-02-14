@@ -13,12 +13,18 @@ import { Button } from "./ui/button";
 import { LogOut } from "lucide-react";
 import NavItems from "./NavItems";
 import { signOut } from "@/lib/actions/auth.actions";
+import { toast } from "sonner";
 
 const UserDropdown = ({ user }: { user: User }) => {
   const router = useRouter();
 
   const handleSignOut = async () => {
     await signOut();
+    const result = await signOut();
+    if (result?.success === false) {
+      toast.error("Sign out failed. Please try again.");
+      return;
+    }
     router.push("/sign-in");
   };
 

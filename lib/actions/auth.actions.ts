@@ -36,6 +36,7 @@ export const signUpWithEmail = async ({
       });
       return { success: true };
     }
+    return { success: false, error: "Sign up failed - no response from auth" };
   } catch (error) {
     console.error("Error during sign up:", error);
     return { success: false, error: "Sign up failed" };
@@ -47,6 +48,7 @@ export const signOut = async () => {
     await auth.api.signOut({
       headers: await headers(),
     });
+    return { success: true };
   } catch (error) {
     console.error("Error during sign out:", error);
     return { success: false, error: "Sign out failed" };

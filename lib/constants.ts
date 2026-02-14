@@ -345,3 +345,9 @@ export const WATCHLIST_TABLE_HEADER = [
 
 export const baseUrl =
   "https://s3.tradingview.com/external-embedding/embed-widget-";
+
+/**
+ * Dashboard URL for email templates and client redirects.
+ * Uses BUNSEKI_APP_URL environment variable, defaults to production URL.
+ */
+export const DASHBOARD_URL = process.env.BUNSEKI_APP_URL || "https://bunseki.vercel.app";
