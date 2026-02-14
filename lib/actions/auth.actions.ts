@@ -23,17 +23,22 @@ export const signUpWithEmail = async ({
     });
 
     if (response) {
-      await inngest.send({
-        name: "app/user.created",
-        data: {
-          email: email,
-          name: fullName,
-          country: country,
-          investmentGoals: investmentGoals,
-          riskTolerance: riskTolerance,
-          preferredIndustry: preferredIndustry,
-        },
-      });
+      try {
+        await inngest.send({
+          name: "app/user.created",
+          data: {
+            email: email,
+            name: fullName,
+            country: country,
+            investmentGoals: investmentGoals,
+            riskTolerance: riskTolerance,
+            preferredIndustry: preferredIndustry,
+          },
+        });
+      } catch (eventError) {
+        // Log but don't fail signup - welcome email is non-critical
+        console.error("Failed to dispatch user.created event:", eventError);
+      }
       return { success: true };
     }
     return { success: false, error: "Sign up failed - no response from auth" };

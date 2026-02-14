@@ -38,7 +38,7 @@ const UserDropdown = ({ user }: { user: User }) => {
           <Avatar>
             <AvatarImage src="" alt="@shadcn" />
             <AvatarFallback className="bg-yellow-500 text-yellow-900 text-sm font-bold">
-              {user.name[0]}
+              {user.name?.[0] || "?"}
             </AvatarFallback>
           </Avatar>
           <div className="hidden md:flex flex-col items-start">

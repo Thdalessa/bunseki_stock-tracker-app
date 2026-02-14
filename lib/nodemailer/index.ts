@@ -26,10 +26,10 @@ export const sendWelcomeEmail = async ({
   intro,
 }: WelcomeEmailData) => {
   const unsubscribeUrl = getUnsubscribeUrl(email);
-  const htmlTemplate = WELCOME_EMAIL_TEMPLATE.replace("{{name}}", name)
-    .replace("{{intro}}", intro)
-    .replace("{{dashboardUrl}}", DASHBOARD_URL)
-    .replace("{{unsubscribeUrl}}", unsubscribeUrl);
+  const htmlTemplate = WELCOME_EMAIL_TEMPLATE.replaceAll("{{name}}", name)
+    .replaceAll("{{intro}}", intro)
+    .replaceAll("{{dashboardUrl}}", DASHBOARD_URL)
+    .replaceAll("{{unsubscribeUrl}}", unsubscribeUrl);
 
   const mailOptions = {
     from: `"Bunseki" <noreply@bunseki.com>`, //this might have to change since it's not a real email

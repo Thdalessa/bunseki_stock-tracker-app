@@ -39,7 +39,9 @@ export const sendSignUpEmail = inngest.createFunction(
       const {
         data: { email, name },
       } = event;
-
+      if (!email || !name) {
+        throw new Error("Missing required user data: email or name");
+      }
       return await sendWelcomeEmail({ email, name, intro: introText });
     });
 

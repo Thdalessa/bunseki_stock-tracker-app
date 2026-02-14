@@ -10,7 +10,7 @@
     "lint": "eslint",
     "test-db": "npx tsx test-connection.ts",
     "check-env": "npx tsx check-env.ts",
-    "inngest": "npx inngest-cli@latest dev"
+    "inngest": "npx inngest-cli dev"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.11",
@@ -43,6 +43,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "inngest-cli": "^3.49.3",
     "@types/nodemailer": "^7.0.9",
     "@types/react": "^19",
     "@types/react-dom": "^19",
