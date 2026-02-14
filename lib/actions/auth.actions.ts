@@ -1,7 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
-import { auth } from "../better-auth/auth";
+import { getAuth } from "../better-auth/auth";
 import { inngest } from "../inngest/client";
 
 export const signUpWithEmail = async ({
@@ -14,6 +14,7 @@ export const signUpWithEmail = async ({
   preferredIndustry,
 }: SignUpFormData) => {
   try {
+    const auth = await getAuth();
     const response = await auth.api.signUpEmail({
       body: {
         email,
@@ -50,6 +51,7 @@ export const signUpWithEmail = async ({
 
 export const signOut = async () => {
   try {
+    const auth = await getAuth();
     await auth.api.signOut({
       headers: await headers(),
     });
@@ -62,6 +64,7 @@ export const signOut = async () => {
 
 export const signInWithEmail = async ({ email, password }: SignInFormData) => {
   try {
+    const auth = await getAuth();
     const response = await auth.api.signInEmail({
       body: {
         email,

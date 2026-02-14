@@ -6,6 +6,13 @@ export const sendSignUpEmail = inngest.createFunction(
   { id: "sign-up-email" },
   { event: "app/user.created" },
   async ({ event, step }) => {
+    const {
+      data: { email, name },
+    } = event;
+    if (!email || !name) {
+      throw new Error("Missing required user data: email or name");
+    }
+
     const userProfile = `
             - Country: ${event.data.country}
             - Investment goals: ${event.data.investmentGoals}
@@ -36,12 +43,6 @@ export const sendSignUpEmail = inngest.createFunction(
         (part && "text" in part ? part.text : null) ||
         "Thanks for joining Bunseki. You now have the tools to track markets and make smarter moves.";
 
-      const {
-        data: { email, name },
-      } = event;
-      if (!email || !name) {
-        throw new Error("Missing required user data: email or name");
-      }
       return await sendWelcomeEmail({ email, name, intro: introText });
     });
 
