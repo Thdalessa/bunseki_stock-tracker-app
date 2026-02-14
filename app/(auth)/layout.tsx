@@ -6,10 +6,15 @@ import { getAuth } from "@/lib/better-auth/auth";
 import { headers } from "next/headers";
 
 const Layout = async ({ children }: { children: ReactNode }) => {
-  const auth = await getAuth();
-  const session = await auth.api.getSession({ headers: await headers() });
-
-  if (session?.user) redirect("/");
+  try {
+    const auth = await getAuth();
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (session?.user) redirect("/");
+  } catch (error) {
+    // If session check fails, allow rendering the auth page
+    console.error("Error checking auth session:", error);
+    redirect("/sign-in");
+  }
 
   return (
     <main className="auth-layout">
