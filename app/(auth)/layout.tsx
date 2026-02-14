@@ -1,8 +1,21 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { redirect } from "next/navigation";
+import { getAuth } from "@/lib/better-auth/auth";
+import { headers } from "next/headers";
 
-const Layout = ({ children }: { children: ReactNode }) => {
+const Layout = async ({ children }: { children: ReactNode }) => {
+  try {
+    const auth = await getAuth();
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (session?.user) redirect("/");
+  } catch (error) {
+    // If session check fails, allow rendering the auth page
+    console.error("Error checking auth session:", error);
+    redirect("/sign-in");
+  }
+
   return (
     <main className="auth-layout">
       <section className="auth-left-section scrollbar-hide-default">
