@@ -72,7 +72,7 @@ export function SearchCommand({
     setOpen(false);
     setSearchTerm("");
     setStocks(initialStocks);
-    router.push(`/stock/${symbol}`);
+    router.push(`/stocks/${symbol}`);
   };
 
   return (

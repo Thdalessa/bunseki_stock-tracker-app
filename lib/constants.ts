@@ -207,7 +207,7 @@ export const CANDLE_CHART_WIDGET_CONFIG = (symbol: string) => ({
   compareSymbols: [],
   studies: [],
   width: "100%",
-  height: 600,
+  height: 570,
 });
 
 export const BASELINE_WIDGET_CONFIG = (symbol: string) => ({
@@ -242,7 +242,7 @@ export const TECHNICAL_ANALYSIS_WIDGET_CONFIG = (symbol: string) => ({
   isTransparent: true,
   locale: "en",
   width: "100%",
-  height: 400,
+  height: 380,
   interval: "1h",
   largeChartUrl: "",
 });
@@ -262,7 +262,7 @@ export const COMPANY_FINANCIALS_WIDGET_CONFIG = (symbol: string) => ({
   isTransparent: true,
   locale: "en",
   width: "100%",
-  height: 464,
+  height: 300,
   displayMode: "regular",
   largeChartUrl: "",
 });
@@ -350,4 +350,5 @@ export const baseUrl =
  * Dashboard URL for email templates and client redirects.
  * Uses BUNSEKI_APP_URL environment variable, defaults to production URL.
  */
-export const DASHBOARD_URL = process.env.BUNSEKI_APP_URL || "https://bunseki.vercel.app";
+export const DASHBOARD_URL =
+  process.env.BUNSEKI_APP_URL || "https://bunseki.vercel.app";
