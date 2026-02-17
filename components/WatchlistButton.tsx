@@ -3,16 +3,13 @@ import React, { useState } from "react";
 
 type Props = {
   symbol: string;
-  company?: string;
   isInWatchlist?: boolean;
-  showTrashIcon?: boolean;
   type?: "button" | "icon";
   onWatchlistChange?: (symbol: string, isAdded: boolean) => void;
 };
 
 export default function WatchlistButton({
   symbol,
-  company,
   isInWatchlist = false,
   onWatchlistChange,
 }: Props) {

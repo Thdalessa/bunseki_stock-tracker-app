@@ -5,14 +5,12 @@ import {
   baseUrl,
   SYMBOL_INFO_WIDGET_CONFIG,
   CANDLE_CHART_WIDGET_CONFIG,
-  BASELINE_WIDGET_CONFIG,
   TECHNICAL_ANALYSIS_WIDGET_CONFIG,
-  COMPANY_PROFILE_WIDGET_CONFIG,
   COMPANY_FINANCIALS_WIDGET_CONFIG,
 } from "@/lib/constants";
 
 type Props = {
-  params: { symbol: string };
+  params: Promise<{ symbol: string }>;
 };
 
 const StockDetails = async ({ params }: Props) => {
@@ -43,11 +41,7 @@ const StockDetails = async ({ params }: Props) => {
 
         {/* Right column */}
         <aside className="lg:col-span-1 space-y-4 h-full">
-          <WatchlistButton
-            symbol={symbol}
-            company={symbol}
-            isInWatchlist={false}
-          />
+          <WatchlistButton symbol={symbol} isInWatchlist={false} />
 
           <TradingViewWidget
             scriptUrl={`${baseUrl}technical-analysis.js`}
