@@ -123,8 +123,12 @@ Between major sections, use:
 
 Content guidelines:
 - Organize news into logical sections with icons (📊 Market Overview, 📈 Top Gainers, 📉 Top Losers, 🔥 Breaking News, 💼 Earnings Reports, 🏛️ Economic Data, etc.)
-- NEVER repeat section headings - use each section type only once per email
-- For each news article, include its actual headline/title from the news data
+- CRITICAL: Group ALL articles of the same category TOGETHER in ONE section - do NOT split the same category across multiple sections
+- Use each section type only ONCE in the entire email
+- Start with the most important/breaking news sections first, then economic data, then market analysis
+- All "Breaking News" items should be grouped together in one 🔥 Breaking News section
+- All "Market Overview" items should be grouped together in one 📊 Market Overview section
+- All "Economic Data" items should be grouped together in one 💼 Economic Data section
 - Provide MINIMUM 3 CONCISE bullet points (NO "Key Takeaways" label - start directly with bullets)
 - Each bullet should be SHORT and EASY TO UNDERSTAND - one clear sentence preferred
 - Use PLAIN ENGLISH - avoid jargon, complex financial terms, or insider language

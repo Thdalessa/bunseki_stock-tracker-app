@@ -1,5 +1,8 @@
 import * as nodemailer from "nodemailer";
-import { WELCOME_EMAIL_TEMPLATE } from "./templates";
+import {
+  WELCOME_EMAIL_TEMPLATE,
+  NEWS_SUMMARY_EMAIL_TEMPLATE,
+} from "./templates";
 import { DASHBOARD_URL } from "../constants";
 
 export const transporter = nodemailer.createTransport({
@@ -36,6 +39,35 @@ export const sendWelcomeEmail = async ({
     to: email,
     subject: `Welcome to Bunseki - your stock market toolkit is ready!`,
     text: "Thanks for joining Bunseki",
+    html: htmlTemplate,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+export const sendNewsEmail = async ({
+  email,
+  name,
+  summary,
+}: NewsEmailData) => {
+  const unsubscribeUrl = getUnsubscribeUrl(email);
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const htmlTemplate = NEWS_SUMMARY_EMAIL_TEMPLATE.replaceAll("{{date}}", today)
+    .replaceAll("{{newsContent}}", summary)
+    .replaceAll("{{dashboardUrl}}", DASHBOARD_URL)
+    .replaceAll("{{unsubscribeUrl}}", unsubscribeUrl);
+
+  const mailOptions = {
+    from: `"Bunseki" <noreply@bunseki.com>`,
+    to: email,
+    subject: `📊 Today's Market News Summary - ${today}`,
+    text: "Today's market news summary",
     html: htmlTemplate,
   };
 
