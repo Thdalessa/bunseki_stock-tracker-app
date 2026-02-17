@@ -15,7 +15,7 @@ const Header = async ({ user }: { user: User }) => {
             alt="Bunseki logo"
             width={140}
             height={32}
-            className="cursor-pointer"
+            className="cursor-pointer absolute top-2"
           />
         </Link>
         <nav className="hidden sm:block">
