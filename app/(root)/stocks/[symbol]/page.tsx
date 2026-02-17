@@ -31,12 +31,6 @@ const StockDetails = async ({ params }: Props) => {
             config={CANDLE_CHART_WIDGET_CONFIG(symbol)}
             className="custom-chart"
           />
-
-          {/* <TradingViewWidget
-            scriptUrl={`${baseUrl}advanced-chart.js`}
-            config={BASELINE_WIDGET_CONFIG(symbol)}
-            className="custom-chart"
-          /> */}
         </section>
 
         {/* Right column */}
