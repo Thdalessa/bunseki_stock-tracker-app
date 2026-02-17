@@ -14,7 +14,6 @@ const watchlistSchema = new Schema<WatchlistItem>(
     userId: {
       type: String,
       required: true,
-      index: true,
     },
     symbol: {
       type: String,
