@@ -137,8 +137,19 @@ export const sendDailyNewsSummary = inngest.createFunction(
       summary: string;
     }>[] = [];
 
+    console.log(
+      "Starting news summarization for",
+      Object.keys(newsPerUser).length,
+      "users",
+    );
+
     for (const [userId, { user, news }] of Object.entries(newsPerUser)) {
+      console.log(
+        `Processing user ${userId} (${user.email}) with ${news.length} articles`,
+      );
+
       if (news.length === 0) {
+        console.log(`No news for user ${userId}, adding default summary`);
         summaryPromises.push(
           Promise.resolve({
             userId,
@@ -156,6 +167,7 @@ export const sendDailyNewsSummary = inngest.createFunction(
 
       const summaryPromise = (async () => {
         try {
+          console.log(`Calling AI inference for user ${userId}`);
           const response = await step.ai.infer(`summarize-news-${userId}`, {
             model: step.ai.models.gemini({ model: "gemini-2.5-flash-lite" }),
             body: {
@@ -168,9 +180,19 @@ export const sendDailyNewsSummary = inngest.createFunction(
             },
           });
 
+          console.log(
+            `AI response received for user ${userId}:`,
+            response?.candidates?.length,
+            "candidates",
+          );
+
           const part = response.candidates?.[0]?.content?.parts?.[0];
           const newsContent =
             (part && "text" in part ? part.text : null) || "No market news.";
+
+          console.log(
+            `Summary generated for user ${userId}, length: ${newsContent.length}`,
+          );
 
           return {
             userId,
@@ -190,14 +212,15 @@ export const sendDailyNewsSummary = inngest.createFunction(
         }
       })();
 
-      summaryPromise.catch((error) => {
-        console.error(`Promise error for ${user.email}:`, error);
-      });
-
       summaryPromises.push(summaryPromise);
     }
 
+    console.log(
+      `Waiting for ${summaryPromises.length} summary promises to resolve`,
+    );
     const summariesArray = await Promise.all(summaryPromises);
+    console.log(`Received ${summariesArray.length} summaries`);
+
     const summaries: {
       [userId: string]: {
         user: { id: string; email: string; name: string };
@@ -206,8 +229,13 @@ export const sendDailyNewsSummary = inngest.createFunction(
     } = {};
 
     summariesArray.forEach(({ userId, user, summary }) => {
+      console.log(`Mapping summary for user ${userId}`);
       summaries[userId] = { user, summary };
     });
+
+    console.log(
+      `Summarization complete, ready to send ${Object.keys(summaries).length} emails`,
+    );
 
     // Step 4: Send emails
     await step.run("send-news-emails", async () => {
