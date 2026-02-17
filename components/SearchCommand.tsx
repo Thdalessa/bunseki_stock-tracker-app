@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import {
-  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -12,7 +11,6 @@ import {
 } from "@/components/ui/command";
 import { Button } from "./ui/button";
 import { Loader2, StarIcon, TrendingUp } from "lucide-react";
-import { isSea } from "node:sea";
 import Link from "next/link";
 import { searchStocks } from "@/lib/actions/finnhub.actions";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -62,7 +60,7 @@ export function SearchCommand({
 
   useEffect(() => {
     debounceSearch();
-  }, [searchTerm]);
+  }, [searchTerm, debounceSearch]);
 
   const handleSelectStock = (symbol: string) => {
     setOpen(false);
@@ -95,6 +93,7 @@ export function SearchCommand({
           />
           {loading && <Loader2 className="search-loader" />}
         </div>
+
         <CommandList className="search-list">
           {loading ? (
             <CommandEmpty className="search-list-empty">
@@ -105,31 +104,35 @@ export function SearchCommand({
               {isSearchMode ? "No stocks found." : "No stocks available."}
             </CommandEmpty>
           ) : (
-            <ul>
-              <div className="search-count">
+            <CommandGroup className="p-0! pb-2 ">
+              <div className="search-count ">
                 {isSearchMode ? "Search results" : "Popular stocks"}
                 {` `}
                 {displayStocks.length || 0}
               </div>
-              {displayStocks.map((stock) => (
-                <li key={stock.symbol} className="search-item">
+              {displayStocks.map((stock, i) => (
+                <CommandItem
+                  key={stock.symbol}
+                  value={stock.symbol}
+                  onSelect={() => handleSelectStock(stock.symbol)}
+                  className={`search-item my-0! p-0!  ${i === displayStocks.length - 1 ? "rounded-b-sm!" : ""} `}
+                >
                   <Link
                     href={`/stock/${stock.symbol}`}
-                    onClick={() => handleSelectStock(stock.symbol)}
-                    className="search-item-link"
+                    className="search-item-link flex items-center w-full py-2"
                   >
                     <TrendingUp className="h-4 w-4 text-gray-500" />
                     <div className="flex-1">
                       <div className="search-item-name">{stock.name}</div>
                     </div>
                     <div className="text-sm text-gray-500">
-                      {stock.symbol} | {stock.exchange} | {stock.type}
+                      {stock.symbol} |{" "}
+                      {stock.exchange ? stock.exchange + "|" : ""} {stock.type}
                     </div>
                   </Link>
-                  {/* <StarIcon /> */}
-                </li>
+                </CommandItem>
               ))}
-            </ul>
+            </CommandGroup>
           )}
         </CommandList>
       </CommandDialog>

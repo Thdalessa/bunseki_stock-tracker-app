@@ -159,7 +159,6 @@ export const searchStocks = cache(
       const trimmed = typeof query === "string" ? query.trim() : "";
 
       let results: FinnhubSearchResult[] = [];
-
       if (!trimmed) {
         // Fetch top 10 popular symbols' profiles
         const top = POPULAR_STOCK_SYMBOLS.slice(0, 10);
@@ -202,17 +201,16 @@ export const searchStocks = cache(
         const data = await fetchJSON<FinnhubSearchResponse>(url, 1800);
         results = Array.isArray(data?.result) ? data.result : [];
       }
+      console.log(results);
 
       const mapped: StockWithWatchlistStatus[] = results
         .map((r) => {
           const upper = (r.symbol || "").toUpperCase();
           const name = r.description || upper;
-          const exchangeFromDisplay =
-            (r.displaySymbol as string | undefined) || undefined;
           const exchangeFromProfile = (r as any).__exchange as
             | string
             | undefined;
-          const exchange = exchangeFromDisplay || exchangeFromProfile || "US";
+          const exchange = exchangeFromProfile || "";
           const type = r.type || "Stock";
           const item: StockWithWatchlistStatus = {
             symbol: upper,
