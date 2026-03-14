@@ -8,6 +8,8 @@
 ![TailwindCSS](https://img.shields.io/badge/Tailwind-4-38B2AC?style=flat-square&logo=tailwind-css)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
 
+🔗 **[Live Demo](https://bunseki-stock-tracker-app.vercel.app/)**
+
 ---
 
 ## What is this project?
