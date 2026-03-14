@@ -192,7 +192,11 @@ Handles background tasks:
 
 ## Screenshots
 
-Coming soon...
+![Dashboard](docs/bunseki_00.png)
+
+![Market Overview](docs/bunseki01.png)
+
+![Stock Details](docs/bunseki02.png)
 
 ---
 
