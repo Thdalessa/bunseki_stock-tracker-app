@@ -68,3 +68,23 @@ email/password with onboarding fields, Inngest welcome email (Gemini
 - `SearchCommand`: `i === stocks.length - 1` compares against `stocks`, not
   `displayStocks`, so the rounded last-item corner is wrong when the
   popular list is sliced to 10. Cosmetic; left for M0-T5.
+
+## 2026-11-12 — security-scan on the M0-T1 branch (WARN decisions)
+
+- **Finnhub key still `NEXT_PUBLIC_`** → tracked in M0-T2 (rename + rotate).
+- **No `.env.example`** → tracked in M0-T2.
+- **`"use server"` exports taking an email / returning all users**
+  (`getWatchlistSymbolsByEmail`, `getAllUsersForNewsEmail`) → tracked in
+  M0-T4.
+- **Middleware not loaded; auth layout failure path can loop** → M0-T3.
+  Layouts remain the server-side gate, so this is WARN, not FAIL.
+- **Unsubscribe link carries a raw email** → tracked in M0-T8.
+- **Prod dependency criticals (`next`, `better-auth`, `mongoose`,
+  `protobufjs`)** → pre-existing on `main`, not introduced by this branch
+  (only devDependencies changed). New ticket M0-T9.
+- **LLM HTML and user `name` inserted unescaped into email templates** →
+  new ticket M0-T10.
+- **Inngest signing key:** `serve()` reads `INNGEST_SIGNING_KEY` from the
+  environment implicitly; it isn't referenced in code, so confirm it's set
+  in Vercel during M0-T2's env pass.
+- **No CSP header** → defer to M4 (TradingView embeds need a tuned policy).

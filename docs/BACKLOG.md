@@ -78,6 +78,19 @@ and the README is accurate.
       `/unsubscribe?email=...`, a route that doesn't exist and that would put
       an email address in a URL. Implement a signed-token unsubscribe or
       remove the link and the daily email opt-out claim.
+- [ ] **M0-T9 — Dependency security updates.** `npm audit --omit=dev`
+      (2026-11-12) reports criticals in `next`, `better-auth`, `mongoose`
+      and `protobufjs` (via Inngest's OpenTelemetry), plus highs. Most have
+      non-breaking fixes (`npm audit fix`); `nodemailer` needs a major bump
+      (7 → 10), so do it separately and re-test both emails. Never
+      `--force`. Run `security-scan` §7 afterwards.
+- [ ] **M0-T10 — Escape LLM output and user input in emails.** 🧭 Gemini is
+      prompted to return HTML that is inserted raw into `{{intro}}` and
+      `{{newsContent}}`, and the user's `name` goes raw into `{{name}}`.
+      News text is third-party content, so a prompt injection could put
+      arbitrary links into a Bunseki-branded email. Decide: allowlist HTML
+      sanitizer (new dependency) vs. ask the model for structured JSON and
+      render the HTML ourselves.
 
 ---
 
