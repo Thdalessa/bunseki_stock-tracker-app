@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { redirect, unstable_rethrow } from "next/navigation";
 import { getAuth } from "@/lib/better-auth/auth";
 import { headers } from "next/headers";
 
@@ -11,7 +11,9 @@ const Layout = async ({ children }: { children: ReactNode }) => {
     const session = await auth.api.getSession({ headers: await headers() });
     if (session?.user) redirect("/");
   } catch (error) {
-    // If session check fails, allow rendering the auth page
+    // redirect() and dynamic APIs like headers() work by throwing; let Next's
+    // own control-flow errors through so they aren't treated as failures.
+    unstable_rethrow(error);
     console.error("Error checking auth session:", error);
     redirect("/sign-in");
   }
