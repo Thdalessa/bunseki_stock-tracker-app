@@ -8,7 +8,7 @@ description: Run Bunseki's verification suite (typecheck, lint, build, and unit 
 Run each step and keep going on failure, so the report is complete:
 
 ```bash
-npm run typecheck   # until M0-T1 adds the script: npx tsc --noEmit
+npm run typecheck
 npm run lint
 npm run build
 npm test            # only once M0-T7 has added a test runner
@@ -30,8 +30,9 @@ VERIFY
   Delete `.next` and re-run; don't touch the code.
 - **Build fails on missing env vars**: say which variable is missing; never
   print its value.
-- Until M0-T1 lands, `next build` ignores type and lint errors, so a green
-  build alone means little. Always run typecheck and lint separately.
+- `npm run build` runs lint first and `next build` type-checks (ADR-002),
+  but still run typecheck and lint as separate steps so the report shows
+  which one failed.
 
 ## Scope
 

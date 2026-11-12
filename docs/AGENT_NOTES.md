@@ -45,3 +45,26 @@ email/password with onboarding fields, Inngest welcome email (Gemini
 - Better Auth uses the raw MongoDB driver via `mongoose.connection.db`; its
   collections (`user`, `session`, `account`, `verification`) are not
   Mongoose models. User lookups use `user.id`, not `_id`.
+
+## 2026-11-12 — M0-T1 (honest build)
+
+- **Next 16's `next build` does not run ESLint.** Lint is enforced only
+  because the `build` script runs `npm run lint` first (ADR-002). Don't
+  remove that until CI exists (M4-T3).
+- **`redirect()`, `notFound()` and `headers()` work by throwing.** Any
+  `try/catch` around them must call `unstable_rethrow(error)` first in the
+  `catch`, or it swallows the redirect (this caused a `/sign-in` redirect
+  loop) and logs build-time dynamic-rendering probes as errors.
+- **`next build` rewrites `tsconfig.json`** (Next 16 forces
+  `jsx: react-jsx` and adds `.next/dev/types`). Commit those changes.
+- `eslint-config-next` v16 ships a native flat config; import
+  `eslint-config-next/core-web-vitals` and `/typescript` directly, no
+  `FlatCompat`. It enables the React Compiler hook rules
+  (e.g. `react-hooks/set-state-in-effect`), which are errors, not warnings.
+- **Deferred to M0-T3:** `app/(auth)/layout.tsx` still redirects to
+  `/sign-in` when the session check genuinely fails, which loops if the
+  failure happens on `/sign-in` itself. The comment's intent was "render the
+  auth page anyway". Decide alongside the middleware/proxy work.
+- `SearchCommand`: `i === stocks.length - 1` compares against `stocks`, not
+  `displayStocks`, so the rounded last-item corner is wrong when the
+  popular list is sliced to 10. Cosmetic; left for M0-T5.

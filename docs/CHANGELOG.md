@@ -7,7 +7,14 @@ a reviewer should be able to read this without opening the code.
 
 ## M0 — Foundation & hygiene
 
-_Nothing shipped yet._
+- **Honest build (M0-T1).** Type and lint errors now fail the build instead
+  of being silently ignored. Added `npm run typecheck`, upgraded the ESLint
+  config to Next 16, and fixed everything that surfaced: untyped Finnhub
+  search data, a React effect that caused extra renders, and an unstable
+  TradingView widget effect.
+- **Fixed a redirect loop.** Signed-in users opening `/sign-in` were sent
+  back to `/sign-in` instead of the dashboard, because an error handler was
+  catching Next's own redirect.
 
 ---
 

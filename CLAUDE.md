@@ -161,9 +161,9 @@ Reviewer checklist:
 
 - Install: `npm install`
 - Dev: `npm run dev` (and `npm run inngest` in a second terminal for jobs)
-- Typecheck: `npm run typecheck` (added by M0-T1; until then `npx tsc --noEmit`)
+- Typecheck: `npm run typecheck`
 - Lint: `npm run lint`
-- Build: `npm run build`
+- Build: `npm run build` (runs lint first; see ADR-002)
 - DB connectivity: `npm run test-db` · Env check: `npm run check-env`
 - Tests: none yet. M0-T7 sets up the test runner; update this section then.
 

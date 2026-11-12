@@ -35,7 +35,9 @@ that, split it.
 secret can reach the browser, every server action is authorization-safe,
 and the README is accurate.
 
-- [ ] **M0-T1 — Make the build honest.** `next.config.ts` sets
+- [x] **M0-T1 — Make the build honest.** ✅ 2026-11-12. Lint enforced via
+      the build script (ADR-002). Also fixed: auth layout swallowing
+      `redirect()`, and the `__exchange` hack (moved here from M0-T5). `next.config.ts` sets
       `typescript.ignoreBuildErrors: true` and `eslint.ignoreDuringBuilds:
       true`, and the `eslint` key is no longer valid in Next 16's
       `NextConfig` (it is itself a type error). Remove both, add a
@@ -60,7 +62,8 @@ and the README is accurate.
       action callable from the client derive the user from the session.
       Run `security-scan`.
 - [ ] **M0-T5 — Remove debug noise.** `console.log(results)` in
-      `searchStocks`, `(r as any).__exchange` hack, unused commented types.
+      `searchStocks`, unused commented types. (The `__exchange` hack was
+      removed in M0-T1.)
       Keep `app/api/test-db` (already disabled in production) or remove it
       along with `test-connection.ts`/`check-env.ts` if unused.
 - [ ] **M0-T6 — README accuracy.** Broken first screenshot
@@ -149,7 +152,8 @@ understand the engineering behind it in under five.
 - [ ] **M4-T2 — README as a case study.** Problem, architecture diagram,
       3–4 key decisions pulled from `DECISIONS.md`, screenshots, what's next.
 - [ ] **M4-T3 — CI.** GitHub Actions: typecheck, lint, unit tests, build on
-      every PR.
+      every PR. Then remove `npm run lint &&` from the `build` script and
+      supersede ADR-002 (lint moves from build to CI).
 - [ ] **M4-T4 — E2E smoke tests** (Playwright): sign in, add to watchlist,
       create alert, add transaction.
 - [ ] **M4-T5 — Accessibility + Lighthouse pass.**
