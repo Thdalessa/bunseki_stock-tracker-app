@@ -14,6 +14,16 @@ if (!FINNHUB_API_KEY) {
   );
 }
 
+/** Subset of Finnhub's `/stock/profile2` response that search relies on. */
+type FinnhubProfile = {
+  name?: string;
+  ticker?: string;
+  exchange?: string;
+};
+
+/** A search hit, optionally enriched with the exchange from a profile lookup. */
+type SearchCandidate = FinnhubSearchResult & { exchange?: string };
+
 /**
  * Fetch JSON from Finnhub API with caching support
  * @param url Full URL to fetch
@@ -158,44 +168,44 @@ export const searchStocks = cache(
 
       const trimmed = typeof query === "string" ? query.trim() : "";
 
-      let results: FinnhubSearchResult[] = [];
+      let results: SearchCandidate[] = [];
       if (!trimmed) {
         // Fetch top 10 popular symbols' profiles
         const top = POPULAR_STOCK_SYMBOLS.slice(0, 10);
         const profiles = await Promise.all(
-          top.map(async (sym) => {
-            try {
-              const url = `${FINNHUB_BASE_URL}/stock/profile2?symbol=${encodeURIComponent(sym)}&token=${token}`;
-              // Revalidate every hour
-              const profile = await fetchJSON<any>(url, 3600);
-              return { sym, profile } as { sym: string; profile: any };
-            } catch (e) {
-              console.error("Error fetching profile2 for", sym, e);
-              return { sym, profile: null } as { sym: string; profile: any };
-            }
-          }),
+          top.map(
+            async (
+              sym,
+            ): Promise<{ sym: string; profile: FinnhubProfile | null }> => {
+              try {
+                const url = `${FINNHUB_BASE_URL}/stock/profile2?symbol=${encodeURIComponent(sym)}&token=${token}`;
+                // Revalidate every hour
+                const profile = await fetchJSON<FinnhubProfile>(url, 3600);
+                return { sym, profile };
+              } catch (e) {
+                console.error("Error fetching profile2 for", sym, e);
+                return { sym, profile: null };
+              }
+            },
+          ),
         );
 
         results = profiles
-          .map(({ sym, profile }) => {
+          .map(({ sym, profile }): SearchCandidate | undefined => {
             const symbol = sym.toUpperCase();
-            const name: string | undefined =
-              profile?.name || profile?.ticker || undefined;
-            const exchange: string | undefined = profile?.exchange || undefined;
+            // Finnhub returns {} for unknown symbols, so a missing name means
+            // "no usable profile", not an error.
+            const name = profile?.name || profile?.ticker;
             if (!name) return undefined;
-            const r: FinnhubSearchResult = {
+            return {
               symbol,
               description: name,
               displaySymbol: symbol,
               type: "Common Stock",
+              exchange: profile?.exchange || undefined,
             };
-            // We don't include exchange in FinnhubSearchResult type, so carry via mapping later using profile
-            // To keep pipeline simple, attach exchange via closure map stage
-            // We'll reconstruct exchange when mapping to final type
-            (r as any).__exchange = exchange; // internal only
-            return r;
           })
-          .filter((x): x is FinnhubSearchResult => Boolean(x));
+          .filter((x): x is SearchCandidate => Boolean(x));
       } else {
         const url = `${FINNHUB_BASE_URL}/search?q=${encodeURIComponent(trimmed)}&token=${token}`;
         const data = await fetchJSON<FinnhubSearchResponse>(url, 1800);
@@ -207,10 +217,7 @@ export const searchStocks = cache(
         .map((r) => {
           const upper = (r.symbol || "").toUpperCase();
           const name = r.description || upper;
-          const exchangeFromProfile = (r as any).__exchange as
-            | string
-            | undefined;
-          const exchange = exchangeFromProfile || "";
+          const exchange = r.exchange || "";
           const type = r.type || "Stock";
           const item: StockWithWatchlistStatus = {
             symbol: upper,
