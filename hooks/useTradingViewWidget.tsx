@@ -6,30 +6,33 @@ const useTradingViewWidget = (
   height: number = 600
 ) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  // Callers pass `config` as an inline object, so its identity changes on
+  // every render. Depending on the serialized string re-initialises the
+  // widget only when the config's content actually changes.
+  const configJson = JSON.stringify(config);
+
   useEffect(() => {
-    if (!containerRef.current) return;
-    if (containerRef.current.dataset.loaded) return;
-    // containerRef.current.innerHTML = `<div class="tradingview-widget-container__widget" style="width: 100%; height: ${height}px;"></div>`;
+    const container = containerRef.current;
+    if (!container) return;
+    if (container.dataset.loaded) return;
     const widgetDiv = document.createElement("div");
     widgetDiv.className = "tradingview-widget-container__widget";
     widgetDiv.style.width = "100%";
     widgetDiv.style.height = `${height}px`;
-    containerRef.current.innerHTML = "";
-    containerRef.current.appendChild(widgetDiv);
+    container.innerHTML = "";
+    container.appendChild(widgetDiv);
     const script = document.createElement("script");
     script.src = scriptUrl;
     script.async = true;
-    script.textContent = JSON.stringify(config);
-    containerRef.current.appendChild(script);
-    containerRef.current.dataset.loaded = "true";
+    script.textContent = configJson;
+    container.appendChild(script);
+    container.dataset.loaded = "true";
 
     return () => {
-      if (containerRef.current) {
-        containerRef.current.innerHTML = "";
-        delete containerRef.current.dataset.loaded;
-      }
+      container.innerHTML = "";
+      delete container.dataset.loaded;
     };
-  }, [scriptUrl, height]);
+  }, [scriptUrl, configJson, height]);
 
   return containerRef;
 };
