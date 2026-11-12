@@ -45,11 +45,7 @@ export const sendWelcomeEmail = async ({
   await transporter.sendMail(mailOptions);
 };
 
-export const sendNewsEmail = async ({
-  email,
-  name,
-  summary,
-}: NewsEmailData) => {
+export const sendNewsEmail = async ({ email, summary }: NewsEmailData) => {
   const unsubscribeUrl = getUnsubscribeUrl(email);
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",

@@ -10,9 +10,9 @@ async function testConnection(): Promise<void> {
       process.exit(1);
     }
     console.log("Attempting to connect to MongoDB...");
-    +(await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(process.env.MONGODB_URI, {
       bufferCommands: false,
-    }));
+    });
 
     console.log("✅ Successfully connected to MongoDB!");
     console.log(

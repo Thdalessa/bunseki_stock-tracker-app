@@ -4,7 +4,6 @@ import {
   PERSONALIZED_WELCOME_EMAIL_PROMPT,
 } from "./prompts";
 import { sendWelcomeEmail, sendNewsEmail } from "../nodemailer";
-import { step } from "inngest";
 import { getAllUsersForNewsEmail } from "../actions/user.actions";
 import { getWatchlistSymbolsByEmail } from "../actions/watchlist.actions";
 import { getNews } from "../actions/finnhub.actions";
@@ -241,7 +240,7 @@ export const sendDailyNewsSummary = inngest.createFunction(
     await step.run("send-news-emails", async () => {
       try {
         await Promise.all(
-          Object.entries(summaries).map(async ([userId, { user, summary }]) => {
+          Object.entries(summaries).map(async ([, { user, summary }]) => {
             try {
               return await sendNewsEmail({
                 email: user.email,
