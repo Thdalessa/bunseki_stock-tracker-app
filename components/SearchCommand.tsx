@@ -10,8 +10,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Button } from "./ui/button";
-import { Loader2, StarIcon, TrendingUp } from "lucide-react";
-import Link from "next/link";
+import { Loader2, TrendingUp } from "lucide-react";
 import { searchStocks } from "@/lib/actions/finnhub.actions";
 import { useDebounce } from "@/hooks/useDebounce";
 
@@ -30,10 +29,14 @@ export function SearchCommand({
   const displayStocks = isSearchMode ? stocks : stocks?.slice(0, 10);
 
   const router = useRouter();
-  // Keep stocks in sync with initialStocks prop
-  useEffect(() => {
+  // Keep stocks in sync with the initialStocks prop. Adjusting state during
+  // render (instead of in an effect) avoids an extra render pass; see
+  // https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes
+  const [prevInitialStocks, setPrevInitialStocks] = useState(initialStocks);
+  if (initialStocks !== prevInitialStocks) {
+    setPrevInitialStocks(initialStocks);
     setStocks(initialStocks);
-  }, [initialStocks]);
+  }
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
